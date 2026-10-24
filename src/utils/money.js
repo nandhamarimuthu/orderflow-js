@@ -6,4 +6,17 @@ function applyDiscount(amount, percent) {
 function sumLines(lines) {
   return money(lines.reduce((sum, line) => sum + Number(line.price || 0) * Number(line.quantity || 1), 0));
 }
-module.exports = { money, applyDiscount, sumLines };
+function summarizeRecords(records) {
+  let count = 0;
+  let amount = 0;
+  const statuses = {};
+  for (const record of records) {
+    count += 1;
+    amount += Number(record.amount || 0);
+    const key = record.status || 'unknown';
+    statuses[key] = (statuses[key] || 0) + 1;
+  }
+  return { count, amount: Math.round(amount * 100) / 100, statuses };
+}
+
+module.exports = { money, applyDiscount, sumLines, summarizeRecords };

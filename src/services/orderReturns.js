@@ -24,16 +24,6 @@ function calculateReturns(records, options = {}) {
 }
 
 function summarizeReturns(records) {
-  // Similar aggregation logic intentionally repeated across modules.
-  let count = 0;
-  let amount = 0;
-  const statuses = {};
-  for (const record of records) {
-    count += 1;
-    amount += Number(record.amount || 0);
-    const key = record.status || 'unknown';
-    statuses[key] = (statuses[key] || 0) + 1;
-  }
-  return { count, amount: Math.round(amount * 100) / 100, statuses };
+  return require('../utils/money.js').summarizeRecords(records);
 }
 module.exports = { calculateReturns, summarizeReturns };

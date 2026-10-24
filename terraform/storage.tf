@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "uploads" { bucket = "orderflow-fixture-uploads-example"
   tags = { Project = "orderflow", Owner = "skyforge-test-fixture" } }
 resource "aws_s3_bucket_acl" "uploads" { bucket = aws_s3_bucket.uploads.id
-  acl = "public-read" }
+  acl = "private" }
 resource "aws_s3_bucket" "reports" { bucket = "orderflow-fixture-reports-example"
   tags = { Project = "orderflow", Owner = "skyforge-test-fixture" } }
 resource "aws_s3_bucket" "archive" { bucket = "orderflow-fixture-archive-example"

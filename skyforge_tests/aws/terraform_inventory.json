@@ -1,0 +1,254 @@
+{
+  "region": "eu-west-2",
+  "services": [
+    "ec2",
+    "iam",
+    "lambda",
+    "rds",
+    "s3",
+    "sqs"
+  ],
+  "resources": [
+    {
+      "service": "ec2",
+      "type": "aws_instance",
+      "address": "aws_instance.api_a",
+      "name": "api-a-instance",
+      "file": "terraform/compute.tf",
+      "line": 1,
+      "config": {
+        "instance_type": "m5.4xlarge"
+      }
+    },
+    {
+      "service": "ec2",
+      "type": "aws_instance",
+      "address": "aws_instance.api_b",
+      "name": "api-b-instance",
+      "file": "terraform/compute.tf",
+      "line": 11,
+      "config": {
+        "instance_type": "c5.9xlarge"
+      }
+    },
+    {
+      "service": "ec2",
+      "type": "aws_instance",
+      "address": "aws_instance.worker",
+      "name": "worker-instance",
+      "file": "terraform/compute.tf",
+      "line": 21,
+      "config": {
+        "instance_type": "r5.8xlarge"
+      }
+    },
+    {
+      "service": "ec2",
+      "type": "aws_instance",
+      "address": "aws_instance.report_a",
+      "name": "report-a-instance",
+      "file": "terraform/compute.tf",
+      "line": 31,
+      "config": {
+        "instance_type": "m5.2xlarge"
+      }
+    },
+    {
+      "service": "ec2",
+      "type": "aws_instance",
+      "address": "aws_instance.report_b",
+      "name": "report-b-instance",
+      "file": "terraform/compute.tf",
+      "line": 41,
+      "config": {
+        "instance_type": "m5.2xlarge"
+      }
+    },
+    {
+      "service": "ec2",
+      "type": "aws_instance",
+      "address": "aws_instance.bastion",
+      "name": "bastion-instance",
+      "file": "terraform/compute.tf",
+      "line": 51,
+      "config": {
+        "instance_type": "t3.2xlarge"
+      }
+    },
+    {
+      "service": "s3",
+      "type": "aws_s3_bucket",
+      "address": "aws_s3_bucket.uploads",
+      "name": "orderflow-fixture-uploads-example",
+      "file": "terraform/storage.tf",
+      "line": 1,
+      "config": {
+        "versioning": false
+      }
+    },
+    {
+      "service": "s3",
+      "type": "aws_s3_bucket",
+      "address": "aws_s3_bucket.reports",
+      "name": "orderflow-fixture-reports-example",
+      "file": "terraform/storage.tf",
+      "line": 5,
+      "config": {
+        "versioning": false
+      }
+    },
+    {
+      "service": "s3",
+      "type": "aws_s3_bucket",
+      "address": "aws_s3_bucket.archive",
+      "name": "orderflow-fixture-archive-example",
+      "file": "terraform/storage.tf",
+      "line": 7,
+      "config": {
+        "versioning": false
+      }
+    },
+    {
+      "service": "rds",
+      "type": "aws_db_instance",
+      "address": "aws_db_instance.primary",
+      "name": "orderflow-primary",
+      "file": "terraform/database.tf",
+      "line": 3,
+      "config": {
+        "engine": "postgres",
+        "instance_class": "db.r5.4xlarge"
+      }
+    },
+    {
+      "service": "rds",
+      "type": "aws_db_instance",
+      "address": "aws_db_instance.reporting",
+      "name": "orderflow-reporting",
+      "file": "terraform/database.tf",
+      "line": 18,
+      "config": {
+        "engine": "postgres",
+        "instance_class": "db.m5.2xlarge"
+      }
+    },
+    {
+      "service": "iam",
+      "type": "aws_iam_role",
+      "address": "aws_iam_role.lambda_role",
+      "name": "orderflow-lambda-role",
+      "file": "terraform/lambda.tf",
+      "line": 1,
+      "config": {}
+    },
+    {
+      "service": "lambda",
+      "type": "aws_lambda_function",
+      "address": "aws_lambda_function.ingest",
+      "name": "orderflow-ingest",
+      "file": "terraform/lambda.tf",
+      "line": 3,
+      "config": {
+        "runtime": "python3.8",
+        "handler": "order_ingest.handler",
+        "memory_size": "10240",
+        "timeout": "900"
+      }
+    },
+    {
+      "service": "lambda",
+      "type": "aws_lambda_function",
+      "address": "aws_lambda_function.invoice",
+      "name": "orderflow-invoice",
+      "file": "terraform/lambda.tf",
+      "line": 13,
+      "config": {
+        "runtime": "python3.8",
+        "handler": "invoice_generator.handler",
+        "memory_size": "10240",
+        "timeout": "900"
+      }
+    },
+    {
+      "service": "lambda",
+      "type": "aws_lambda_function",
+      "address": "aws_lambda_function.reconcile",
+      "name": "orderflow-reconcile",
+      "file": "terraform/lambda.tf",
+      "line": 22,
+      "config": {
+        "runtime": "python3.8",
+        "handler": "nightly_reconcile.handler",
+        "memory_size": "10240",
+        "timeout": "900"
+      }
+    },
+    {
+      "service": "lambda",
+      "type": "aws_lambda_function",
+      "address": "aws_lambda_function.resize",
+      "name": "orderflow-resize",
+      "file": "terraform/lambda.tf",
+      "line": 31,
+      "config": {
+        "runtime": "python3.8",
+        "handler": "image_resize.handler",
+        "memory_size": "10240",
+        "timeout": "900"
+      }
+    },
+    {
+      "service": "sqs",
+      "type": "aws_sqs_queue",
+      "address": "aws_sqs_queue.orders",
+      "name": "orderflow-orders",
+      "file": "terraform/sqs.tf",
+      "line": 1,
+      "config": {
+        "fifo": false,
+        "visibility_timeout": null
+      }
+    },
+    {
+      "service": "sqs",
+      "type": "aws_sqs_queue",
+      "address": "aws_sqs_queue.payments",
+      "name": "orderflow-payments",
+      "file": "terraform/sqs.tf",
+      "line": 4,
+      "config": {
+        "fifo": false,
+        "visibility_timeout": null
+      }
+    },
+    {
+      "service": "sqs",
+      "type": "aws_sqs_queue",
+      "address": "aws_sqs_queue.notifications",
+      "name": "orderflow-notifications",
+      "file": "terraform/sqs.tf",
+      "line": 7,
+      "config": {
+        "fifo": false,
+        "visibility_timeout": null
+      }
+    }
+  ],
+  "unsupported_resource_types": {
+    "aws_vpc": 1,
+    "aws_subnet": 3,
+    "aws_internet_gateway": 1,
+    "aws_eip": 3,
+    "aws_nat_gateway": 3,
+    "aws_security_group": 1,
+    "aws_s3_bucket_acl": 1,
+    "aws_ebs_volume": 3,
+    "aws_ebs_snapshot": 3,
+    "aws_lb": 2,
+    "aws_db_subnet_group": 1,
+    "aws_iam_policy": 1,
+    "aws_iam_role_policy_attachment": 1,
+    "aws_iam_instance_profile": 1,
+    "aws_sqs_queue_policy": 1
+  }
+}
